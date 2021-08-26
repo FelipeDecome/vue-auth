@@ -1,63 +1,63 @@
 <template>
-    <dinamic-tag :tag="tag" class="default" :class="[variant]">
-        <v-slot />
-    </dinamic-tag>
+  <component
+    :is="renderAs"
+    v-bind="$attrs"
+    class="text-default"
+    :class="[`text-${variant}`]"
+    :style="inlineStyle"
+  >
+    <slot />
+  </component>
 </template>
 
 <script>
+const colors = {
+  default: "--clr-text-default",
+  title: "--clr-text-title",
+  complement: "clr-text-complement",
+  inColor: "--clr-text-in-color",
+  primary: "--clr-primary",
+  error: "--clr-error",
+  warn: "--clr-warn",
+  success: "--clr-success",
+  info: "--clr-info",
+};
+
+const variantTags = {
+  heading: "h1",
+  title: "h2",
+  subtitle: "h3",
+  paragraph: "p",
+  complement: "span",
+  span: "span",
+};
+
 export default {
-    props: {
-        tag: {
-            type: String,
-            default: 'p',
-        },
-        variant: {
-            type: String,
-            default: 'paragraph'
-        },
-    }
-}
+  props: {
+    tag: {
+      type: String,
+    },
+    variant: {
+      type: String,
+      default: "paragraph",
+    },
+    color: {
+      type: String,
+    },
+    align: {
+      type: String,
+    },
+  },
+  computed: {
+    renderAs() {
+      return this.tag || variantTags[this.variant];
+    },
+    inlineStyle() {
+      return {
+        color: this.color ? `var(${colors[this.color]})` : "",
+        "text-align": this.align || "",
+      };
+    },
+  },
+};
 </script>
-
-<style lang="scss" scoped>
-.default {
-    font-family: Noto Sans TC, sans-serif;
-}
-
-.heading {
-    font-weight: 700;
-    font-size: 3rem;
-    line-height: 3.5rem;
-    color: var(--clr-text-title);
-}
-
-.title {
-    font-weight: 500;
-    font-size: 2.25rem;
-    line-height: 2.5rem;
-    color: var(--clr-text-title);
-}
-
-.subtitle {
-    font-weight: 500;
-    font-size: 1.5rem;
-    line-height: 2rem;
-    color: var(--clr-text-title);
-}
-
-.paragraph {
-    font-weight: 400;
-    font-size: 1rem;
-    line-height: 1.75rem;
-    letter-spacing: 0.02em;
-    color: var(--clr-text-default);
-}
-
-.complement {
-    font-weight: 300;
-    font-size: 0.875rem;
-    line-height: 1.25rem;
-    letter-spacing: 0.04em;
-    color: var(--clr-text-complement);
-}
-</style>

@@ -1,0 +1,117 @@
+:root {
+    --clr-primary: #9a36c9;
+    --clr-primary-light: #b564db;
+    --clr-primary-lighter: #e0baf1;
+  
+    --clr-error: #fb6580;
+    --clr-error-light: #fdb4c1;
+  
+    --clr-success: #58c670;
+    --clr-success-light: #b3e5be;
+  
+    --clr-warn: #f9d447;
+    --clr-warn-light: #ffe5a4;
+  
+    --clr-info: #34a1de;
+    --clr-info-light: #96ceee;
+  
+    --clr-background: #f6f8fc;
+    --clr-default: #fafafa;
+    --clr-complement: #E8E8E8;
+  
+    --clr-text-default: #7d7d7d;
+    --clr-text-complement: #a1a1a1;
+    --clr-text-title: #363636;
+    --clr-text-in-color: #f6f8fc;
+  }
+  
+  * {
+    padding: 0;
+    margin: 0;
+    outline: none;
+    box-sizing: border-box;
+  }
+
+  body {
+    background: var(--clr-background);
+  }
+
+  #app {
+    height: 100vh;
+    width: 100%;
+    overflow: hidden;
+  }
+
+  a {
+    text-decoration: none;
+    color: inherit;
+  }
+
+  /* Font styles */
+
+  .text-default {
+    font-family: Noto Sans TC, sans-serif;
+  }
+  
+  .text-heading {
+    font-weight: 700;
+    font-size: 3rem;
+    line-height: 3.5rem;
+    color: var(--clr-text-title);
+  }
+  
+  .text-title {
+    font-weight: 500;
+    font-size: 2.25rem;
+    line-height: 2.5rem;
+    color: var(--clr-text-title);
+  }
+  
+  .text-subtitle {
+    font-weight: 500;
+    font-size: 1.5rem;
+    line-height: 2rem;
+    color: var(--clr-text-title);
+  }
+  
+  .text-paragraph {
+    font-weight: 400;
+    font-size: 1rem;
+    line-height: 1.75rem;
+    letter-spacing: 0.02em;
+    color: var(--clr-text-default);
+  }
+  
+  .text-complement {
+    font-weight: 300;
+    font-size: 0.875rem;
+    line-height: 1.25rem;
+    letter-spacing: 0.04em;
+    color: var(--clr-text-complement);
+  }
+
+  .text-span {
+    font-weight: 300;
+    font-size: 0.75rem;
+    line-height: 1.25rem;
+    letter-spacing: 0.04em;
+    color: var(--clr-text-complement);
+  }
+
+  @keyframes shake {
+  33% {
+    transform: translateX(-0.6rem);
+  }
+  66% {
+    transform: translateX(1rem);
+  }
+  100% {
+    transform: translateX(0);
+  }
+}
+
+@keyframes loading {
+  to {
+    transform: rotate(360deg);
+  }
+}
