@@ -82,6 +82,9 @@ export default {
       this.$refs.input.$el.addEventListener("blur", this.handleInputBlur);
 
       this.$refs.input.$el.addEventListener("input", this.handleInput);
+      this.$refs.input.$el.addEventListener("keyup", (e) =>
+        this.$emit("keyup", e)
+      );
     },
 
     clearEvents() {
@@ -89,6 +92,9 @@ export default {
       this.$refs.input.$el.removeEventListener("blur", this.handleInputBlur);
 
       this.$refs.input.$el.removeEventListener("input", this.handleInput);
+      this.$refs.input.$el.removeEventListener("keyup", (e) =>
+        this.$emit("keyup", e)
+      );
     },
   },
 };

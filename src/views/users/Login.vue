@@ -11,12 +11,14 @@
             placeholder="Digite seu email"
             v-model="email"
             :error="errors.email"
+            @keyup.enter="handleSubmit"
           />
           <Input
             placeholder="Digite sua senha"
             type="password"
             v-model="password"
             :error="errors.password"
+            @keyup.enter="handleSubmit"
           />
 
           <Typography class="__forgot" variant="complement" align="right">
