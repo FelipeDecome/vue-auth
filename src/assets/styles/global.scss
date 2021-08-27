@@ -18,6 +18,7 @@
     --clr-background: #f6f8fc;
     --clr-default: #fafafa;
     --clr-complement: #E8E8E8;
+    --clr-gray: #a1a1a1;
   
     --clr-text-default: #7d7d7d;
     --clr-text-complement: #a1a1a1;
@@ -37,6 +38,10 @@
   }
 
   #app {
+    display: flex;
+    flex-direction: column;
+
+    max-height: 100vh;
     height: 100vh;
     width: 100%;
     overflow: hidden;
@@ -72,6 +77,13 @@
     font-size: 1.5rem;
     line-height: 2rem;
     color: var(--clr-text-title);
+  }
+
+  .text-navigation {
+    font-weight: 500;
+    font-size: 1rem;
+    letter-spacing: 0.02em;
+    color: var(--clr-text-default);
   }
   
   .text-paragraph {

@@ -1,11 +1,18 @@
 <template>
-  <button class="button" type="button" @click="$emit('click', $event)">
+  <button
+    class="button"
+    :class="[size, variant]"
+    type="button"
+    @click="$emit('click', $event)"
+  >
     <LoadingIcon class="loading" v-if="loading" />
 
     <template v-else>
       <slot name="icon-left" />
 
-      <Typography variant="subtitle" color="inColor"><slot /></Typography>
+      <Typography :variant="small ? 'navigation' : 'subtitle'"
+        ><slot
+      /></Typography>
 
       <slot name="icon-right" />
     </template>
@@ -26,6 +33,22 @@ export default {
       type: Boolean,
       default: false,
     },
+    small: {
+      type: Boolean,
+      default: false,
+    },
+    primary: {
+      type: Boolean,
+      default: false,
+    },
+  },
+  computed: {
+    size() {
+      return this.small ? "small" : "default";
+    },
+    variant() {
+      return this.primary ? "primary" : "base";
+    },
   },
   components: { Typography, LoadingIcon },
 };
@@ -36,31 +59,74 @@ export default {
   display: flex;
   justify-content: center;
   align-items: center;
-  gap: 1rem;
 
-  width: 100%;
-  height: 4rem;
-
-  background: var(--clr-primary);
   border: 0;
   border-radius: 0.5rem;
-  color: var(--clr-text-in-color);
   cursor: pointer;
 
   transition: all 0.2s;
 
-  .loading {
-    width: 2.25rem;
-    height: 2.25rem;
+  &.primary {
+    background: var(--clr-primary);
 
+    > * {
+      color: var(--clr-text-in-color);
+    }
+
+    &:hover {
+      background: var(--clr-primary-light);
+    }
+  }
+
+  &.base {
+    background: var(--clr-default);
+    border: 1px solid var(--clr-complement);
+
+    > * {
+      color: var(--clr-text-default);
+    }
+
+    &:hover {
+      border-color: var(--clr-primary-light);
+
+      > * {
+        color: var(--clr-primary);
+      }
+    }
+  }
+
+  &.default {
+    width: 100%;
+    height: 4rem;
+    gap: 1rem;
+
+    .loading {
+      width: 2.25rem;
+      height: 2.25rem;
+    }
+
+    svg {
+      width: 1.5rem;
+      height: 1.5rem;
+    }
+  }
+
+  &.small {
+    padding: 0.75rem 2rem;
+    gap: 0.5rem;
+
+    .loading,
+    svg {
+      width: 1.125rem;
+      height: 1.125rem;
+    }
+  }
+
+  .loading {
     animation-name: loading;
     animation-duration: 2s;
     animation-timing-function: linear;
     animation-iteration-count: infinite;
-  }
-
-  &:hover {
-    background: var(--clr-primary-light);
   }
 
   svg {

@@ -2,7 +2,7 @@
   <component
     :is="renderAs"
     v-bind="$attrs"
-    class="text-default"
+    class="text text-default"
     :class="[`text-${variant}`]"
     :style="inlineStyle"
   >
@@ -27,6 +27,7 @@ const variantTags = {
   heading: "h1",
   title: "h2",
   subtitle: "h3",
+  navigation: "p",
   paragraph: "p",
   complement: "span",
   span: "span",
@@ -61,3 +62,9 @@ export default {
   },
 };
 </script>
+
+<style lang="scss" scoped>
+.text {
+  transition: all 0.2s;
+}
+</style>

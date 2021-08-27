@@ -3,7 +3,9 @@
     <div class="__form-container">
       <Form>
         <template v-slot:header>
-          <Typography variant="title">Acesse sua conta</Typography>
+          <Typography variant="title" align="center"
+            >Acesse sua conta</Typography
+          >
         </template>
 
         <div class="__input-group">
@@ -27,7 +29,7 @@
         </div>
 
         <template v-slot:footer>
-          <Button @click.prevent="handleSubmit" :loading="loading">
+          <Button @click.prevent="handleSubmit" :loading="loading" primary>
             Entrar
             <template v-slot:icon-right><LoginIcon /></template>
           </Button>
@@ -35,7 +37,7 @@
       </Form>
     </div>
     <div class="__illustration-container">
-      <img src="@/assets/images/illustration.png" alt="illustration" />
+      <IllustrationSVG />
     </div>
   </div>
 </template>
@@ -44,10 +46,12 @@
 import Form from "@/components/Form.vue";
 import Input from "@/components/Input.vue";
 import Typography from "@/shared/components/Typography.vue";
-import Button from "@/components/Button.vue";
+import Button from "../../components/Button.vue";
 import LoginIcon from "@/assets/images/icons/login-icon.svg";
+import IllustrationSVG from "@/assets/images/illustration.svg";
 import * as Yup from "yup";
 import { getValidationErrors } from "@/utils/getValidationErrors.js";
+import { mapActions, mapGetters } from "vuex";
 
 export default {
   components: {
@@ -56,30 +60,33 @@ export default {
     Typography,
     Button,
     LoginIcon,
+    IllustrationSVG,
   },
   data() {
     return {
       email: "",
       password: "",
       errors: {},
-      loading: false,
     };
   },
 
+  computed: {
+    ...mapGetters(["loading"]),
+  },
+
   methods: {
+    ...mapActions("auth", ["login"]),
+    ...mapActions(["setLoading"]),
     async handleSubmit() {
       this.errors = {};
-      this.loading = true;
+      this.setLoading(true);
 
       try {
         const schema = Yup.object({
           email: Yup.string()
             .required("Email obrigatório!")
             .email("Digite um email válido!"),
-          password: Yup.string()
-            .min(8, "A senha deve conter no mínimo 8 caracteres.")
-            .max(24, "A senha deve conter no máximo 24 caracteres.")
-            .required("Senha obrigatória!"),
+          password: Yup.string().required("Senha obrigatória!"),
         });
 
         const { email, password } = this;
@@ -94,15 +101,20 @@ export default {
           }
         );
 
-        this.loading = false;
+        await this.login({ email, password });
       } catch (error) {
-        setTimeout(() => {
-          // Api response time simulation
-          if (error instanceof Yup.ValidationError)
-            this.errors = getValidationErrors(error);
+        // Api response time simulation
+        if (error instanceof Yup.ValidationError) {
+          this.errors = getValidationErrors(error);
+          return;
+        }
 
-          this.loading = false;
-        }, 500);
+        this.errors = {
+          email: "Autenticação indisponível no momento!",
+          password: "Autenticação indisponível no momento!",
+        };
+      } finally {
+        this.setLoading(false);
       }
     },
   },
@@ -111,14 +123,17 @@ export default {
 
 <style lang="scss" scoped>
 .container {
+  flex: 1;
   display: flex;
-  height: 100%;
+  max-width: 90rem;
+  align-self: center;
 
   .__form-container {
     flex: 1;
     display: flex;
     justify-content: center;
     align-items: center;
+    align-self: stretch;
 
     padding: 0 10rem;
 
@@ -137,7 +152,13 @@ export default {
   }
 
   .__illustration-container {
-    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    svg {
+      width: 42rem;
+    }
   }
 }
 </style>
