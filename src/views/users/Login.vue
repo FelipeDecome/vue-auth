@@ -1,25 +1,26 @@
 <template>
   <div class="container">
     <div class="__form-container">
-      <Form>
+      <Form ref="formRef">
         <template v-slot:header>
-          <Typography variant="title" align="center"
-            >Acesse sua conta</Typography
-          >
+          <Typography variant="title" align="center">
+            Acesse sua conta
+          </Typography>
         </template>
 
         <div class="__input-group">
           <Input
+            name="email"
             placeholder="Digite seu email"
             v-model="email"
-            :error="errors.email"
             @keyup.enter="handleSubmit"
           />
+
           <Input
+            name="password"
             placeholder="Digite sua senha"
             type="password"
             v-model="password"
-            :error="errors.password"
             @keyup.enter="handleSubmit"
           />
 
@@ -43,15 +44,14 @@
 </template>
 
 <script>
-import Form from "@/components/Form.vue";
-import Input from "@/components/Input.vue";
-import Typography from "@/shared/components/Typography.vue";
-import Button from "../../components/Button.vue";
-import LoginIcon from "@/assets/images/icons/login-icon.svg";
-import IllustrationSVG from "@/assets/images/illustration.svg";
 import * as Yup from "yup";
-import { getValidationErrors } from "@/utils/getValidationErrors.js";
 import { mapActions, mapGetters } from "vuex";
+
+import { Form, Button, Input } from "../../components";
+import { IllustrationSVG, LoginIcon } from "../../assets/images";
+
+import { getValidationErrors } from "../../utils/getValidationErrors.js";
+import Typography from "../../shared/components/Typography.vue";
 
 export default {
   components: {
@@ -76,10 +76,13 @@ export default {
 
   methods: {
     ...mapActions("auth", ["login"]),
+
     ...mapActions(["setLoading"]),
+
     async handleSubmit() {
-      this.errors = {};
       this.setLoading(true);
+
+      this.$refs.formRef.setErrors({});
 
       try {
         const schema = Yup.object({
@@ -103,16 +106,15 @@ export default {
 
         await this.login({ email, password });
       } catch (error) {
-        // Api response time simulation
         if (error instanceof Yup.ValidationError) {
-          this.errors = getValidationErrors(error);
+          this.$refs.formRef.setErrors(getValidationErrors(error));
           return;
         }
 
-        this.errors = {
+        this.$refs.formRef.setErrors({
           email: "Autenticação indisponível no momento!",
           password: "Autenticação indisponível no momento!",
-        };
+        });
       } finally {
         this.setLoading(false);
       }

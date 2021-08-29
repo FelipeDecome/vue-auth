@@ -10,9 +10,9 @@
     <template v-else>
       <slot name="icon-left" />
 
-      <Typography :variant="small ? 'navigation' : 'subtitle'"
-        ><slot
-      /></Typography>
+      <Typography :variant="small ? 'navigation' : 'subtitle'">
+        <slot />
+      </Typography>
 
       <slot name="icon-right" />
     </template>
@@ -20,8 +20,9 @@
 </template>
 
 <script>
-import Typography from "@/shared/components/Typography.vue";
-import LoadingIcon from "@/assets/images/icons/loading-icon.svg";
+import { Typography } from "@/shared/components";
+
+import { LoadingIcon } from "../assets/images";
 
 export default {
   props: {

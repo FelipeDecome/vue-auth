@@ -16,6 +16,14 @@
   </form>
 </template>
 
+<script>
+import FormProvider from "../providers/FormProvider";
+
+export default {
+  mixins: [FormProvider],
+};
+</script>
+
 <style lang="scss" scoped>
 form {
   display: flex;

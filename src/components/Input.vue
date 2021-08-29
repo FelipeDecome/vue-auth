@@ -7,20 +7,22 @@
       tag="input"
       variant="complement"
       ref="input"
+      :name="name"
       :type="type"
       :value="value"
       v-bind="$attrs"
     />
     <div v-if="error" class="error-container">
-      <Warning />
+      <WarningIcon />
       <Typography variant="complement" color="inColor">{{ error }}</Typography>
     </div>
   </div>
 </template>
 
 <script>
-import Typography from "@/shared/components/Typography";
-import Warning from "@/assets/images/icons/warning-icon.svg";
+import { Typography } from "../shared/components";
+
+import { WarningIcon } from "../assets/images";
 
 export default {
   props: {
@@ -32,26 +34,39 @@ export default {
       type: String,
       default: "text",
     },
-    error: {
+    name: {
       type: String,
     },
   },
+
+  inject: ["registerField"],
+
   data() {
     return {
       focused: false,
       filled: false,
+      error: "",
     };
   },
   components: {
     Typography,
-    Warning,
+    WarningIcon,
   },
+
   mounted() {
     this.appendEvents();
+
+    this.registerField({
+      name: this.name,
+      ref: this,
+      errorPath: "error", // property or function
+    });
   },
+
   beforeDestroy() {
     this.clearEvents();
   },
+
   methods: {
     /**
      * @param {FocusEvent} e

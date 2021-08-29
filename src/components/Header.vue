@@ -27,7 +27,7 @@
       <router-link to="/entrar">
         <Button small>
           Entrar
-          <template v-slot:icon-right><SignInIcon /></template>
+          <template v-slot:icon-right><LoginIcon /></template>
         </Button>
       </router-link>
 
@@ -42,17 +42,17 @@
 </template>
 
 <script>
-import Typography from "../shared/components/Typography.vue";
-import Button from "./Button.vue";
-import UserPlusIcon from "../assets/images/icons/user-plus-icon.svg";
-import SignInIcon from "../assets/images/icons/login-icon.svg";
+import { Typography } from "../shared/components";
+import { Button } from ".";
+
+import { UserPlusIcon, LoginIcon } from "../assets/images";
 
 export default {
   components: {
     Button,
     Typography,
     UserPlusIcon,
-    SignInIcon,
+    LoginIcon,
   },
 };
 </script>
@@ -109,7 +109,6 @@ header {
             display: flex;
             align-items: center;
             padding: 0 0.75rem;
-            border-radius: 0.5rem;
             border-bottom: 3px solid transparent;
 
             transition: all 0.2s;
